@@ -16,14 +16,14 @@ SCRIPTNAME=/etc/init.d/miio_server
 PIDFILE=/var/run/miio_server.pid
 
 DAEMON_USER=root
-DAEMON=/home/pi/domoticz/plugins/xiaomi-mirobot/miio_server.py
-DAEMON_ARGS="192.168.1.12 476e6b70343055483230644c53707a12"
+DAEMON=/config/plugins/xiaomi-mirobot/miio_server.py
+DAEMON_ARGS="192.168.188.19 566144356436356f686d585a6643594b"
 DAEMON_ARGS="$DAEMON_ARGS --host 127.0.0.1 --port 22222"
 
 # Exit if the package is not installed
 [ -x "$DAEMON" ] || exit 0
 
-. /lib/lsb/init-functions
+. /etc/init.d/functions.sh
 
 
 do_start()
@@ -40,24 +40,24 @@ do_start()
 
 case "$1" in
   start)
-     log_daemon_msg "Starting $NAME"
+     #log_daemon_msg "Starting $NAME"
      do_start
      RET_STATUS=$?
      case "$RET_STATUS" in
 	1)
-	   log_success_msg
+	   #log_success_msg
            [ "$VERBOSE" != no ] && [ $RET_STATUS = 1 ] && log_warning_msg "Daemon was already running"
 	;;
 	*)
      	   start-stop-daemon --start  --background --oknodo --pidfile $PIDFILE --make-pidfile --chuid $DAEMON_USER --exec $DAEMON -- $DAEMON_ARGS
-           log_end_msg $?
+           #log_end_msg $?
         ;;
      esac
      ;;
   stop)
-     log_daemon_msg "Stopping $NAME"
+     #log_daemon_msg "Stopping $NAME"
      start-stop-daemon --stop --pidfile $PIDFILE --retry 10
-     log_end_msg $?
+     #log_end_msg $?
    ;;
   force-reload|restart)
      $0 stop
